@@ -62,7 +62,7 @@ class GraphApp:
 
 
     def add_edges_in_batch(self):
-        edges_input = simpledialog.askstring("Adicionar Arestas em Lote", "Digite arestas no formato 'v1,v2,peso,s/n' (use 's' para direcionado e 'n' para não direcionado) e separe por ponto e vírgula:")
+        edges_input = simpledialog.askstring("Adicionar ao grafo em Lote", "Digite arestas no formato 'v1,v2,peso,s/n' (use 's' para direcionado e 'n' para não direcionado) e separe por ponto e vírgula:")
         edges = [tuple(edge.split(',')) for edge in edges_input.split(';')]
 
         with self.driver.session() as session:
@@ -159,14 +159,14 @@ class GraphApp:
         root = tk.Tk()
         root.title("Visualização do Grafo")
 
-        pos = nx.spring_layout(G)  # Layout dos nós
+        pos = nx.spring_layout(G) 
         edge_labels = nx.get_edge_attributes(G, 'weight')
 
         fig, ax = plt.subplots(figsize=(8, 6))
-        nx.draw(G, pos, with_labels=True, node_color='skyblue', edge_color='gray', node_size=2000, font_size=15, arrows=is_directed)
+        nx.draw(G, pos, with_labels=True, node_color='skyblue', edge_color='black', node_size=2000, font_size=15, arrows=is_directed)
         nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels)
 
-        canvas = FigureCanvasTkAgg(fig, master=root)  # A figura será exibida na janela do Tkinter
+        canvas = FigureCanvasTkAgg(fig, master=root)  
         canvas.draw()
         canvas.get_tk_widget().pack(fill=tk.BOTH, expand=True)
 
@@ -179,7 +179,7 @@ class GraphApp:
         vertex1 = simpledialog.askstring("Verificar Adjacência", "Primeiro vértice:")
         vertex2 = simpledialog.askstring("Verificar Adjacência", "Segundo vértice:")
         with self.driver.session() as session:
-            result = session.run("MATCH (a {name: $v1})-[r]->(b {name: $v2}) RETURN r", v1=vertex1, v2=vertex2)
+            result = session.run("MATCH (a {name: $v1})-[r]-(b {name: $v2}) RETURN r", v1=vertex1, v2=vertex2)
             adjacent = result.single() is not None
         messagebox.showinfo("Resultado", f"Os vértices {vertex1} e {vertex2} são adjacentes: {adjacent}")
 
@@ -208,7 +208,7 @@ class GraphApp:
         options = [
             ("Adicionar Vértice", self.add_vertex),
             ("Adicionar Aresta", self.add_edge),
-            ("Adicionar Arestas em Lote", self.add_edges_in_batch), 
+            ("Adicionar ao grafo em Lote", self.add_edges_in_batch), 
             ("Ordem e Tamanho do Grafo", self.get_order_and_size),
             ("Lista de Adjacência", self.get_adjacent_vertices),  
             ("Mostra Grafo", self.display_graph), 
