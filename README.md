@@ -1,8 +1,6 @@
 <p align="center">
 
-  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/Yara-R/Grafeno?color=353949">
-
-  <img alt="Repository size" src="https://img.shields.io/github/repo-size/Yara-R/Grafeno">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/Yara-R/Grafeno">
 
   <a href="https://github.com/Yara-R/Les-Observablees-IquHACK2024/commits/main/">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/Yara-R/Grafeno">
