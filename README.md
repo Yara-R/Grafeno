@@ -12,7 +12,7 @@
 
 # Grafeno
 
-Grafeno é um projeto desenvolvido como parte da disciplina de Teoria dos Grafos do 5º período da CESAR School ensinada pelo professor Breno Alencar. O objetivo do projeto é criar uma interface gráfica que facilite a interação e visualização de grafos, permitindo a criação e consulta de propriedades fundamentais de grafos de maneira intuitiva.
+Grafeno é um projeto desenvolvido como parte da disciplina de Teoria dos Grafos do 5º período da CESAR School ensinada pelo professor [Breno Alencar](https://www.linkedin.com/in/brenoalencar/). O objetivo do projeto é criar uma interface gráfica que facilite a interação e visualização de grafos, permitindo a criação e consulta de propriedades fundamentais de grafos de maneira intuitiva.
 
 ## Funcionalidades
 
