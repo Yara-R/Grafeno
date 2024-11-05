@@ -225,4 +225,4 @@ class GraphApp:
 
         self.root.mainloop()
 
-app = GraphApp("bolt://localhost:7687", "neo4j", "TeoriaDosGrafos")
+app = GraphApp("bolt://localhost:7687", "neo4j", "sua_senha")
