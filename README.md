@@ -42,6 +42,7 @@ Para executar o projeto Grafeno, é necessário ter:
 
 - Python 3.8+
 - Bibliotecas adicionais (neo4j, NetworkX, Matplotlib, tkinter)
+- Neo4j Desktop para o banco de dados
 
 ## Instalação
 
@@ -52,13 +53,46 @@ Para executar o projeto Grafeno, é necessário ter:
    
 2. Navegue até o diretório do projeto:
    ```bash
-   cd grafeno
+   cd Grafeno
    ```
    
 3. Instale as dependências:
    ```bash
    pip install -r requirements.txt
    ```
+
+ ## Configurando o Neo4j Desktop
+
+1. **Baixe e Instale o Neo4j Desktop**:
+   - Acesse [o site do Neo4j](https://neo4j.com/download/) e baixe a versão mais recente do Neo4j Desktop.
+   - Após o download, instale o Neo4j Desktop seguindo as instruções do instalador.
+
+2. **Abra o Neo4j Desktop**:
+   - Ao abrir pela primeira vez, será solicitado que você crie uma conta Neo4j ou faça login.
+
+3. **Criando um Novo Projeto**:
+   - Na tela inicial do Neo4j Desktop, clique em **New Project** e dê um nome ao seu projeto (por exemplo, "Grafeno").
+
+4. **Criando um Novo Banco de Dados Local**:
+   - Dentro do projeto, clique em **Add Database** e escolha a opção **Local DBMS**.
+   - Dê um nome para o banco de dados, escolha a versão desejada (recomendada: a mais recente compatível) e crie uma senha segura.
+   - **Anote essa senha**, pois será usada para se conectar ao banco de dados a partir do código.
+
+5. **Inicie o Banco de Dados**:
+   - Após criar o banco de dados, clique em **Start** para inicializá-lo. Aguarde até que ele indique que está "Running".
+
+6. **Obtenha o URI de Conexão e Credenciais**:
+   - O URI padrão para conectar ao banco local é `bolt://localhost:7687`.
+   - Usuário padrão: `neo4j`
+   - Senha: a senha que você criou no passo 4.
+
+7. **Configurando o Código com as Credenciais**:
+   - Abra o arquivo do código e substitua as credenciais na linha de inicialização:
+     ```python
+     app = GraphApp("bolt://localhost:7687", "neo4j", "sua_senha")
+     ```
+   - Troque `"sua_senha"` pela senha que configurou no Neo4j.
+
 
 ## Uso
 
