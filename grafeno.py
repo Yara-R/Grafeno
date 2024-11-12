@@ -20,6 +20,37 @@ class GraphApp:
             session.run("MATCH (n) DETACH DELETE n")
         messagebox.showinfo("Informação", "Grafo deletado.")
 
+    def delete_vertex(self):
+        vertex = simpledialog.askstring("Deletar Vértice", "Nome do vértice:")
+        if vertex:
+            with self.driver.session() as session:
+                # Match the vertex by its name (id field should be 'name')
+                result = session.run("MATCH (n:Node {name: $vertex_name}) DETACH DELETE n", vertex_name=vertex)
+            if result.consume().counters.nodes_deleted > 0:
+                messagebox.showinfo("Informação", f"Vértice {vertex} deletado.")
+            else:
+                messagebox.showerror("Erro", f"Vértice {vertex} não encontrado.")
+
+    def delete_edge(self):
+        source = simpledialog.askstring("Deletar Aresta", "Vértice de origem:")
+        target = simpledialog.askstring("Deletar Aresta", "Vértice de destino:")
+        with self.driver.session() as session:
+            # Adjust the MATCH query to ensure that it deletes the relationship between source and target
+            result = session.run(
+                """
+                MATCH (n1:Node {name: $source})-[r:REL]->(n2:Node {name: $target})
+                DELETE r
+                """,
+                source=source, target=target
+            )
+        if result.consume().counters.relationships_deleted > 0:
+            messagebox.showinfo("Informação", f"Aresta entre {source} e {target} deletada.")
+        else:
+            messagebox.showerror("Erro", f"Aresta entre {source} e {target} não encontrada.")
+
+
+
+
     def add_vertex(self):
         vertex = simpledialog.askstring("Adicionar Vértice", "Nome do vértice:")
         if vertex:
@@ -62,7 +93,7 @@ class GraphApp:
 
 
     def add_edges_in_batch(self):
-        edges_input = simpledialog.askstring("Adicionar ao grafo em Lote", "Digite arestas no formato 'v1,v2,peso,s/n' (use 's' para direcionado e 'n' para não direcionado) e separe por ponto e vírgula:")
+        edges_input = simpledialog.askstring("Adicionar ao grafo em Lote", "Digite no formato 'v1,v2,peso,s/n' (use 's' para direcionado e 'n' para não direcionado) e separe por ponto e vírgula:")
         edges = [tuple(edge.split(',')) for edge in edges_input.split(';')]
 
         with self.driver.session() as session:
@@ -216,6 +247,8 @@ class GraphApp:
             ("Verificar se Dois Vértices São Adjacentes", self.check_adjacency),
             ("Caminho Mais Curto entre Dois Vértices", self.shortest_path),
             ("Deletar o Grafo", self.delete_all),
+            ("Deletar Vértice", self.delete_vertex),
+            ("Deletar Aresta", self.delete_edge),
             ("Sair", self.root.quit)
         ]
 
