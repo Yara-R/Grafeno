@@ -81,7 +81,7 @@ Para executar o projeto Grafeno, é necessário ter:
 
 6. **Visualize o banco de dados no seu navegador**:
    - Acesse no seu navegador `http://localhost:7474/browser/`
-   - O URI padrão para conectar ao banco local é `bolt://localhost:7687`.
+   - O URL padrão para conectar ao banco local é `bolt://localhost:7687`.
    - Usuário padrão: `neo4j`
    - Senha: a senha que você criou no passo 4.
 
