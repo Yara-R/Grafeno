@@ -79,12 +79,13 @@ Para executar o projeto Grafeno, é necessário ter:
 5. **Inicie o Banco de Dados**:
    - Após criar o banco de dados, clique em **Start** para inicializá-lo. Aguarde até que ele indique que está "Running".
 
-6. **Obtenha o URI de Conexão e Credenciais**:
+6. **Visualize o banco de dados no seu navegador**:
+   - Acesse no seu navegador `http://localhost:7474/browser/`
    - O URI padrão para conectar ao banco local é `bolt://localhost:7687`.
    - Usuário padrão: `neo4j`
    - Senha: a senha que você criou no passo 4.
 
-7. **Configurando o Código com as Credenciais**:
+8. **Configurando o Código com as Credenciais**:
    - Abra o arquivo do código e substitua as credenciais na linha de inicialização:
      ```python
      app = GraphApp("bolt://localhost:7687", "neo4j", "sua_senha")
