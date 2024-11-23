@@ -232,6 +232,46 @@ class GraphApp:
         else:
             messagebox.showinfo("Caminho Mais Curto", f"Nenhum caminho encontrado de {source} para {target}.")
 
+
+    def check_eulerian(self):
+
+        with self.driver.session() as session:
+            
+            directed_query = session.run("MATCH ()-[r]->() RETURN count(r.directed) > 0 AS directed")
+            is_directed = directed_query.single()["directed"]
+
+            G = nx.DiGraph() if is_directed else nx.Graph()
+
+            nodes = session.run("MATCH (n:Node) RETURN n.name AS name")
+            for record in nodes:
+                G.add_node(record["name"])
+
+            edges_query = session.run(
+                "MATCH (a:Node)-[r:REL]->(b:Node) RETURN a.name AS source, b.name AS target, r.directed AS directed"
+            )
+            for record in edges_query:
+                source = record["source"]
+                target = record["target"]
+                if is_directed:
+                    G.add_edge(source, target)
+                else:
+                    G.add_edge(source, target)
+
+        # Verificar propriedades Eulerianas
+        if is_directed:
+            if nx.is_strongly_connected(G) and all(G.in_degree(v) == G.out_degree(v) for v in G.nodes):
+                result = "O grafo é Euleriano."
+            else:
+                result = "O grafo não é Euleriano."
+        else:
+            if nx.is_connected(G) and all(G.degree(v) % 2 == 0 for v in G.nodes):
+                result = "O grafo é Euleriano."
+            else:
+                result = "O grafo não é Euleriano."
+
+        messagebox.showinfo("Resultado", result)
+
+
     def create_interface(self):
         self.root = tk.Tk()
         self.root.title("Sistema de Manipulação de Grafos")
@@ -246,6 +286,7 @@ class GraphApp:
             ("Grau de um Vértice", self.get_vertex_degree), 
             ("Verificar se Dois Vértices São Adjacentes", self.check_adjacency),
             ("Caminho Mais Curto entre Dois Vértices", self.shortest_path),
+            ("Verificar Se o Grafo É Euleriano", self.check_eulerian),
             ("Deletar o Grafo", self.delete_all),
             ("Deletar Vértice", self.delete_vertex),
             ("Deletar Aresta", self.delete_edge),
@@ -257,5 +298,6 @@ class GraphApp:
             button.pack(fill="x", padx=5, pady=5)
 
         self.root.mainloop()
+
 
 app = GraphApp("bolt://localhost:7687", "neo4j", "sua_senha")
