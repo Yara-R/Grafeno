@@ -206,6 +206,9 @@ class GraphApp:
 
         root.mainloop()
 
+
+
+
     def check_adjacency(self):
         vertex1 = simpledialog.askstring("Verificar Adjacência", "Primeiro vértice:")
         vertex2 = simpledialog.askstring("Verificar Adjacência", "Segundo vértice:")
@@ -221,16 +224,18 @@ class GraphApp:
             result = session.run(
                 "MATCH (start:Node {name: $source}), (end:Node {name: $target}), "
                 "p = shortestPath((start)-[*]-(end)) "
-                "RETURN length(p) AS length, nodes(p) AS path",
+                "RETURN reduce(totalCost = 0, r IN relationships(p) | totalCost + r.weight) AS cost, "
+                "nodes(p) AS path",
                 source=source, target=target
             )
             record = result.single()
         if record:
-            length = record["length"]
+            cost = record["cost"]
             path = [node["name"] for node in record["path"]]
-            messagebox.showinfo("Caminho Mais Curto", f"Caminho mais curto de {source} para {target}: Comprimento = {length}, Caminho = {path}")
+            messagebox.showinfo("Caminho Mais Curto", f"Caminho mais curto de {source} para {target}: Custo = {cost}, Caminho = {path}")
         else:
             messagebox.showinfo("Caminho Mais Curto", f"Nenhum caminho encontrado de {source} para {target}.")
+
 
 
     def check_eulerian(self):
